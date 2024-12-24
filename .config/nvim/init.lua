@@ -190,8 +190,8 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Move half page and center'})
-vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Move half page and center'})
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Move half page and center' })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Move half page and center' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -260,9 +260,28 @@ require('lazy').setup({
   },
 
   {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    dependencies = {
+      { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
+      { 'nvim-lua/plenary.nvim', branch = 'master' }, -- for curl, log and async functions
+    },
+    build = 'make tiktoken', -- Only on MacOS or Linux
+    opts = {
+      -- See Configuration section for options
+    },
+    -- See Commands section for default commands if you want to lazy load on them
+  },
+
+  {
     'christoomey/vim-tmux-navigator',
     lazy = false,
   },
+  {
+    'nvim-lua/plenary.nvim',
+  },
+  -- {
+  --   'ThePrimeagen/harpoon',
+  -- },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -419,6 +438,20 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      -- vim.keymap.set('n', '<leader>sm', ':Telescope harpoon marks<CR>', { desc = 'Harpoon [M]arks' })
+
+      -- Copilot Chat
+      vim.keymap.set('n', '<leader>cc', ':CopilotChat<CR>', { desc = '[C]opilot [C]hat' })
+      vim.keymap.set('n', '<leader>ct', ':CopilotChatToggle<CR>', { desc = '[C]opilot Chat [T]oggle' })
+      vim.keymap.set('n', '<leader>cr', ':CopilotReset<CR>', { desc = '[C]opilot [R]eset' })
+
+      vim.keymap.set('v', '<leader>cc', ':CopilotChat<CR>', { desc = '[C]opilot [C]hat' })
+      vim.keymap.set('v', '<leader>ct', ':CopilotChatToggle<CR>', { desc = '[C]opilot Chat [T]oggle' })
+      vim.keymap.set('v', '<leader>cr', ':CopilotReset<CR>', { desc = '[C]opilot [R]eset' })
+
+      -- local harpoon = re
+      -- vim.api.nvim_set_keymap('n', '<leader>m', ':lua require('harpoon.mark').add_file()<CR>, {noremap=true}),
+      -- vim.api.nvim_set_keymap('n', '<leader>ht', ':lua require('harpoon.ui').toggle_quick_menu()<CR>, {noremap=true}),
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -459,6 +492,7 @@ require('lazy').setup({
     },
   },
   { 'Bilal2453/luvit-meta', lazy = true },
+  { 'https://github.com/github/copilot.vim' },
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -927,11 +961,12 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  --
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
